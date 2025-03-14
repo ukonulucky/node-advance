@@ -10,7 +10,7 @@ const registerUser = async (req, res) => {
     
       if (!userName || !email || !password) { 
          return  res.status(400).json({
-            message: "Missing credentials" 
+            message: "Missing credentials.." 
         }); 
       }
     /* check if user already exist */
