@@ -40,12 +40,7 @@ const registerUser = async (req, res) => {
         message: "User created successfully",
         data: createdUser,
       });
-    } else { 
-      return res.status(201).json({
-        message: "failed to create user",
-       
-      });
-    }
+    } 
   } catch (error) {
       res.status(500).json({
           message: "failed to created user:" + error.message
