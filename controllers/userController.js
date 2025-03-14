@@ -9,14 +9,21 @@ const registerUser = async (req, res) => {
 
     
       if (!userName || !email || !password) { 
-         return  res.status(500).json({
+         return  res.status(400).json({
             message: "Missing credentials" 
         }); 
       }
     /* check if user already exist */
     const existingUser = await userModel.findOne({
-      $or: [{ userName, email}],
+      $or: [{ userName }, { email}],
     });
+
+    if (existingUser) {
+      return res.status(400).json({
+        status: false,
+        message: "User email  or username already exist",
+      });
+    }
       /* salt and hash user password */
       /* created salt */
 
@@ -24,12 +31,7 @@ const registerUser = async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, salt)
 
  
-    if (existingUser) {
-      return res.status(400).json({
-        status: false,
-        message: "User email  or username already exist",
-      });
-    }
+ 
       const createdUser = await userModel.create({
           userName, email, password: hashedPassword, role: role || "user"
       });
